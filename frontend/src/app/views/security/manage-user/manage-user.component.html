@@ -1,0 +1,193 @@
+
+<!-- <form method="post">
+  <input type="text" id="txtUserName" name="txtUserName" value="Ahmad"/> 
+
+  <input type="submit" id="btnSave" name="btnSave" value="Submit" />
+  <input type="button" id="btnCancel" name="btnCancel" value="Cancel" />
+
+</form>
+
+ -->
+<div class="container-fluid page">
+  <div class="d-flex page_box p-3 mt-2  header-sticky" position="sticky">
+      <div *ngIf="Add">Manage User
+      </div>
+      <div *ngIf="Edit">Edit User
+      </div>
+      <div fxFlex fxLayout="row" fxLayoutAlign="end center" style="margin-top: 0; padding-top: 0;" *ngIf="isDialog">
+        <button mat-icon-button style="color: white; margin-top: 0; padding-top: 0;" 
+        (click)="dialogRefe.close()"
+        aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+    </button>
+      </div>
+
+  </div>
+  <div class="page_content shadow p-3 position-relative">
+      <form #userForm="ngForm">
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <!-- <mat-form-field fxFlex="48%" appearance="outline" class="form-group">
+              <mat-label> User Name</mat-label>
+           
+              <input UserName matInput required #userName="ngModel" name="userName" [(ngModel)]="selectedUser.userName" maxlength="200" minlength="3"/>
+               <mat-error class="form-text text-danger"
+              *ngIf="userForm.controls['userName']?.hasError || userForm.controls['userName']?.errors?.['minlength']">
+              UserName is required to be at least 3 characters.
+            </mat-error> 
+     
+          </mat-form-field> -->
+              <!-- <mat-form-field fxFlex="48%" appearance="outline" class="form-group">
+                  <mat-label>User Name</mat-label>
+                <input matInput required #userName="ngModel" name="userName" [(ngModel)]="selectedUser.userName" />
+            </mat-form-field> -->
+     
+            <mat-form-field fxFlex="48%" appearance="outline" class="form-group">
+              <mat-label>Email</mat-label>
+              <input matInput  #email="ngModel" name="email" [(ngModel)]="selectedUser.email" required>
+          </mat-form-field>
+             <mat-form-field fxFlex="48%" appearance="outline" class="form-group">
+              <input type="hidden" id="id" name="id" value="7" />
+                  <mat-label>Password</mat-label>
+              <input Password matInput required placeholder="passwordHash" [type]="hide ? 'password' : 'text'" #passwordHash="ngModel"
+             [(ngModel)]="selectedUser.passwordHash" name="passwordHash" maxlength="200" minlength="10"/>
+              <mat-icon style="color: rgb(32, 10, 66);" matSuffix (click)="hide = !hide">{{hide ? 'visibility_off'
+                :
+                'visibility'}}
+              </mat-icon>
+              <mat-error class="form-text text-danger"
+              *ngIf="userForm.controls['passwordHash']?.hasError || userForm.controls['passwordHash']?.errors?.['minlength']">
+              Password is required to be at least 6 characters.
+            </mat-error>
+              </mat-form-field>
+              
+          </div>
+        <!--   <div *ngIf="messagebox"
+         style="background-color: rgb(212, 245, 234); color:rgb(218, 17, 17); padding: 15px;margin: 10px;width: 680; text-align: center; justify-content: center;">
+ 
+         <tbody>
+ 
+           <tr *ngFor="let msg of messages">
+ 
+             <td><strong>{{msg.description}}</strong></td>
+           </tr>
+         </tbody>
+       </div> -->
+         
+          <div fxLayoutAlign="end end">
+                       <c-spinner *ngIf="proccessing" style="height: 50px;width: 50px;color: rgb(3, 71, 102);"></c-spinner> 
+                      <div style="margin-top: 10px;" *ngIf="!proccessing">
+                        <button mat-raised-button *ngIf="AddMode" color="primary" (click)="SaveUser()">Submit</button>
+     
+                        <button mat-raised-button *ngIf="EditMode" color="primary" (click)="PutUser()">Edit</button>
+                        
+                        <button mat-icon-button mat-sm-button color="primary" cTooltip="Refresh" cTooltipPlacement="top"
+                        (click)="Refresh()">
+                        <mat-icon>autorenew</mat-icon>
+                    </button>
+                       </div>
+                       
+         </div>
+         <!-- <button mat-raised-button *ngIf="PutUser" color="primary" (click)="OpenUserAdDialog()">Edit</button> -->
+              <div>
+                  <button mat-icon-button mat-sm-button color="primary" cTooltip="Refresh" cTooltipPlacement="top"
+                      (click)="ngOnInit()">
+                      <mat-icon>autorenew</mat-icon>
+                  </button>
+              </div>
+        
+      </form>
+
+
+
+   <div class="page_content shadow p-3 position-relative">
+    <!-- <div style="margin-top: 30px;text-align: right;margin-right: 10px;">
+      <button mat-raised-button class="mb-05" style="background-color: #1e293b;color:white"
+        [routerLink]="['/security/userRegistration']">Add
+        New</button>
+    </div>  -->
+    <c-card style="padding: 10px; margin-top: 30px;">
+      <h5 cCardTitle>User List</h5>
+      <c-card-body style="padding: 10px;background-color: rgb(2, 42, 75);margin: 5px;border-radius: 10px;">
+        <div class="example-table-container">
+          <section class="example-container mat-elevation-z8" tabindex="0" style="border-radius: 5px;">
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+              <ng-container matColumnDef="id" id="id">
+                <th mat-header-cell *matHeaderCellDef>Sr No </th>
+                <td mat-cell *matCellDef="let user"> {{user.id}} </td>
+              </ng-container>
+              <ng-container matColumnDef="passwordHash" id="passwordHash">
+                <th mat-header-cell *matHeaderCellDef>PasswordHash </th>
+                <td mat-cell *matCellDef="let user"> {{user.passwordHash}} </td>
+              </ng-container>
+              <ng-container matColumnDef="userName" id="userName">
+                <th mat-header-cell *matHeaderCellDef>User Name </th>
+                <td mat-cell *matCellDef="let user"> {{user.userName}} </td>
+              </ng-container>
+              <ng-container matColumnDef="role" id="role">
+                <th mat-header-cell *matHeaderCellDef>Role</th>
+                <td mat-cell *matCellDef="let user"> {{user.role}} </td>
+              </ng-container>
+              <ng-container matColumnDef="phoneNumber" id="phoneNumber">
+                <th mat-header-cell *matHeaderCellDef>Cell No </th>
+                <td mat-cell *matCellDef="let user"> {{user.phoneNumber}} </td>
+              </ng-container>
+              <ng-container matColumnDef="email" id="email">
+                <th mat-header-cell *matHeaderCellDef> Email </th>
+                <td mat-cell *matCellDef="let user"> {{user.email}} </td>
+              </ng-container>
+              <ng-container matColumnDef="discountLimit" id="discountLimit">
+                <th mat-header-cell *matHeaderCellDef> Discount Limit </th>
+                <td mat-cell *matCellDef="let user"> {{user.discountLimit}} </td>
+              </ng-container>
+              <ng-container matColumnDef="fatherName" id="fatherName">
+                <th mat-header-cell *matHeaderCellDef> Father Name </th>
+                <td mat-cell *matCellDef="let user"> {{user.fatherName}} </td>
+              </ng-container>
+              <ng-container matColumnDef="firstName" id="firstName">
+                <th mat-header-cell *matHeaderCellDef> Name </th>
+                <td mat-cell *matCellDef="let user"> {{user.firstName}} </td>
+              </ng-container>
+              <ng-container matColumnDef="msCardNo" id="msCardNo">
+                <th mat-header-cell *matHeaderCellDef> MS CardNo </th>
+                <td mat-cell *matCellDef="let user"> {{user.msCardNo}} </td>
+              </ng-container>
+              <ng-container matColumnDef="address" id="address">
+                <th mat-header-cell *matHeaderCellDef> Address </th>
+                <td mat-cell *matCellDef="let user"> {{user.address}} </td>
+              </ng-container>
+              <ng-container matColumnDef="branch" id="branch">
+                <th mat-header-cell *matHeaderCellDef> Branch </th>
+                <td mat-cell *matCellDef="let user"> {{user.branch}} </td>
+              </ng-container>
+              <ng-container matColumnDef="cnic" id="cnic">
+                <th mat-header-cell *matHeaderCellDef> CNIC </th>
+                <td mat-cell *matCellDef="let user"> {{user.cnic}} </td>
+              </ng-container>
+              <ng-container matColumnDef="action" stickyEnd="true">
+                <th mat-header-cell *matHeaderCellDef>
+                  <p style="width: 150px; text-align: center;">Actions</p>
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  <div fxLayout="row" fxLayoutAlign="space-around" style="width: 150px; text-align: center;">
+                    <!-- <button mat-icon-button mat-sm-button style="color: rgb(43, 3, 25)" class="mr-1"
+                      (click)="EditUser(row)"><mat-icon>edit</mat-icon></button> -->
+
+                      <button mat-icon-button mat-sm-button (click)="OpenUserAdDialog(row.id)" style=" color:#1e293b ; "
+                      cTooltip=" Edit User">
+                      <mat-icon>edit</mat-icon>
+                  </button>
+
+                    <button mat-icon-button mat-sm-button color="warn" class="mr-1"
+                      (click)="DeleteUser(row.id)"><mat-icon>delete</mat-icon></button>
+                  </div>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          </section>
+        </div>
+      </c-card-body>
+    </c-card>
+  </div>
+

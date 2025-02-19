@@ -1,0 +1,40 @@
+<div class="login-container">
+    <mat-card class="login-form">
+      <div class="text-center pt-8 pb-16" style="margin: 20px;margin-top: 30px;">
+        <mat-icon style="  transform: scale(4)">person_pin</mat-icon>
+        <h3 >sign-up</h3>
+        <form cForm #signUpForm="ngForm">
+            <mat-form-field class="form-group">
+          
+               <!--  <label for="exampleInputPassword1">Name</label> -->
+                <input matInput type="text" username [(ngModel)]="signUpForm.value.username" name="username" placeholder="username" required>
+             
+            </mat-form-field>
+            <mat-form-field class="form-group">
+           
+             <!--  <label for="exampleInputEmail1">Email address</label> -->
+              <input matInput type="email" email [(ngModel)]="signUpForm.value.email"  name="email" placeholder="Email" required>
+              
+           
+        </mat-form-field>
+        <mat-form-field class="form-group">
+           
+              <!-- <label for="exampleInputPassword1">Password</label> -->
+              <input matInput type="password" password [(ngModel)]="signUpForm.value.password"  name="password" placeholder="password" required>
+           
+        </mat-form-field>
+        <mat-form-field class="form-group">
+           
+                <!-- <label for="exampleInputPassword1">confirmPassword</label> -->
+                <input matInput type="password" confirmPassword [(ngModel)]="signUpForm.value.confirmPassword"  name="confirmPassword" placeholder="confirmPassword" required>
+             
+            </mat-form-field>
+            
+              <button mat-raised-button id="login-button"  type="submit">
+                 sign-up
+              </button>
+
+          </form>
+        </div>
+      
+         

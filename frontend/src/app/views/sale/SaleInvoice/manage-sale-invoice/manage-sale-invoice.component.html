@@ -1,0 +1,358 @@
+<div class="container-fluid page">
+    <div class="d-flex page_box p- mt- header-sticky" position="sticky">
+      <div *ngIf="Add">Manage Sale Invoice</div>
+      <div *ngIf="Edit">Update Sale Invoice</div>
+    </div>
+    <div class="page_content shadow p- position-relative">
+      <form #userForm="ngForm" >
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <mat-form-field fxFlex="45%" appearance="outline" class="form-group">
+            <mat-label>Invoice No</mat-label>
+            <input matInput [(ngModel)]="selectedSaleInvoice.invoiceNo"   name="invoiceNo" required
+              #invoiceNo="ngModel" readonly />
+             <mat-error *ngIf="invoiceNo.errors?.['required']">Invoice No is required</mat-error>
+          </mat-form-field>
+          <mat-form-field fxFlex="45%" appearance="outline" class="form-group">
+            <mat-label>Date</mat-label>
+            <input matInput [ngxMatDatetimePicker]="picker" name="date" required #date="ngModel"
+              [(ngModel)]="selectedSaleInvoice.date" />
+            <mat-datepicker-toggle matSuffix [for]="$any(picker)"></mat-datepicker-toggle>
+            <ngx-mat-datetime-picker 
+              class="datetimepicker" 
+              #picker 
+              [showSpinners]="false" 
+              [enableMeridian]="false"
+              [hideTime]="true" 
+              [disableTime]="true" 
+              [disableMinute]="true" 
+              [min]="minDate" 
+              type="date"> 
+            </ngx-mat-datetime-picker>
+          </mat-form-field>
+          <mat-form-field fxFlex="45%" appearance="outline" class="form-group">
+            <mat-label>Customer Name</mat-label>
+            <input matInput required   name="customerName"  #customerName="ngModel"
+              [(ngModel)]="selectedSaleInvoice.customerName" />
+            </mat-form-field>
+              <mat-form-field fxFlex="45%" appearance="outline" class="form-group">
+                <mat-label>Cell No</mat-label>
+                <input matInput required   name="cell"  #cell="ngModel"
+                  [(ngModel)]="selectedSaleInvoice.cell" />
+                </mat-form-field>
+                
+                
+        </div>
+        <br />
+  
+        <p style="
+            font-size: 20px;
+            font-weight: bolder;
+            color: #04415e;
+            margin-top: 30px;
+          ">
+          Sale Invoice Line
+        </p>
+        <c-card style="margin-top: 10px; background: rgb(209, 238, 243); padding: 20px" class="mat-elevation-z8">
+          <form #SaleInvoiceDetailForm="ngForm" (keydown.enter)="$event.preventDefault();">
+
+            <Row>
+              <div fxLayout="row" fxLayoutAlign="space-between">
+                <!-- . Service ID with Search Icon -->
+                  
+                  <mat-form-field fxFlex="45%" appearance="outline" class="form-group">
+                    <mat-label>Barcode</mat-label>
+                    <input matInput required   name="barcode"  #barcode="ngModel"
+                      [(ngModel)]="SaleInvoiceDetail.barcode" 
+                      (ngModelChange)="onBarcodeScanned($event)" />
+
+                      <div matSuffix>  
+                        <button mat-icon-button style="color:#940540;" (click)="OpenItemsDialog(); $event.stopPropagation()">
+                          <mat-icon cTooltip="Explore Tax">add</mat-icon>
+                        </button>
+                      </div>
+                    </mat-form-field>
+                  
+                    <!-- <mat-form-field fxFlex="45%" appearance="outline" class="form-group">
+
+                  <mat-label>Bar Code</mat-label>
+                  <mat-select
+                    [(ngModel)]="SaleInvoiceDetail.barcodeId"
+                    [ngModelOptions]="{standalone: true}"
+                    #barcodeId="ngModel">
+                    <mat-option *ngFor="let option of Items" [value]="option.barcode" (click)="onSelectItems(option)">
+                      {{ option.barcode }}
+                    </mat-option>
+                  </mat-select> 
+                  <div matSuffix>  
+                    <button mat-icon-button style="color:#940540;" (click)="OpenItemsDialog(); $event.stopPropagation()">
+                      <mat-icon cTooltip="Explore Tax">add</mat-icon>
+                    </button>
+                  </div>
+                </mat-form-field>-->
+                <mat-form-field appearance="outline" class="form-group" fxFlex="15%">
+                  <mat-label>Item Code</mat-label>
+                  <input matInput #itemCode="ngModel" readonly  name="itemCode" 
+                    [(ngModel)]="SaleInvoiceDetail.itemCode" />
+                </mat-form-field>
+                <mat-form-field appearance="outline" fxFlex="15%">
+                  <mat-label>Quantity</mat-label>
+                  <input 
+                    matInput
+                    #qtyInput 
+                    #quantity="ngModel" 
+                    name="quantity" 
+                    [(ngModel)]="SaleInvoiceDetail.quantity" 
+                    type="number" 
+                    min=1 
+                    required 
+                    (keydown.enter)="AddLinetoList()" 
+                    oninput="validity.valid||(value='')" 
+                    (input)="calculateAmount()"
+                  />
+                   <mat-error *ngIf="quantity.errors?.['required']">
+                    Quantity is required
+                  </mat-error> 
+                   <mat-error *ngIf="quantity.errors?.['min']">
+                    Quantity must be greater than 0
+                  </mat-error>
+                </mat-form-field>   
+                <mat-form-field appearance="outline" class="form-group" fxFlex="15%">
+                  <mat-label>Price </mat-label>
+                  <input matInput #retailPrice="ngModel"   name="retailPrice"  (input)="calculateAmount()"
+                    [(ngModel)]="SaleInvoiceDetail.retailPrice" />
+                </mat-form-field> 
+                <!-- <mat-form-field appearance="outline" class="form-group" fxFlex="15%">
+                    <mat-label>Discount </mat-label>
+                    <input matInput #discount="ngModel"   name="discount"  (input)="calculateAmount()"
+                      [(ngModel)]="SaleInvoiceDetail.discount" />
+                  </mat-form-field> -->
+                  <mat-form-field appearance="outline" fxFlex="12%">
+                    <mat-label>Disc.%</mat-label>
+                    <input matInput type="number" max="100" name="discount"
+                      [(ngModel)]="SaleInvoiceDetail.discount"
+                      (focus)="lastEditedField='discount'"
+                      (input)="calculateAmount()" />
+                  </mat-form-field>
+                  
+                  <mat-form-field appearance="outline" fxFlex="12%">
+                    <mat-label>Disc.Amt</mat-label>
+                    <input matInput type="number" name="discAmount"
+                      [(ngModel)]="SaleInvoiceDetail.discAmount"
+                      (focus)="lastEditedField='discAmount'"
+                      (input)="calculateAmount()" />
+                  </mat-form-field>
+                  
+                <mat-form-field fxFlex="15%" appearance="outline" class="form-group">
+                  <mat-label>Line Total</mat-label>
+                  <input readonly matInput #lineTotal="ngModel" name="lineTotal" required="true"  
+                    [(ngModel)]="SaleInvoiceDetail.lineTotal"  (input)="calculateAmount()" />
+                </mat-form-field>
+                </div>
+            </Row>
+            <Row>
+              <div fxLayout="row" fxLayoutAlign="end" fxFlex="100%">
+                <div>
+                  <button type="submit" mat-icon-button mat-sm-button style="color: rgb(97, 48, 48)"
+                    cTooltip="Add to the List" cTooltipPlacement="top" (click)="AddLinetoList()">
+                    <mat-icon>add</mat-icon>
+                  </button>
+                  <button type="button" mat-icon-button mat-sm-button color="primary" cTooltip="Refresh"
+                    cTooltipPlacement="top" (click)="RefreshLine()">
+                    <mat-icon>refresh</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </Row>
+          </form>
+        </c-card>
+        <c-card style="padding: px; margin-top: px" class="mat-elevation-z">
+          <h style="font-size: 20px; color: #04415e; margin: 20px">
+            Sale Invoice Line
+          </h>
+          <c-card-body style="
+              padding: 10px;
+              background-image: linear-gradient(
+                to bottom,
+                rgb(2, 33, 58),
+                rgb(7, 95, 122)
+              );
+              margin: 5px;
+              border-radius: 10px;
+            ">
+            <div class="example-table-container">
+              <section class="example-container mat-elevation-z8" tabindex="0" style="border-radius: 5px">
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z">
+                                          
+                      <ng-container matColumnDef="barcode">
+                        <th mat-header-cell *matHeaderCellDef>
+                          <div style="width: 200px">Bar Code</div>
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                          <div style="width: 200px">{{ element.barcode }}</div>
+                        </td>
+                      </ng-container>
+                      <ng-container matColumnDef="itemCode">
+                        <th mat-header-cell *matHeaderCellDef>
+                          <div style="width: 200px">Item Code</div>
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                          <div style="width: 200px">{{ element.itemCode }}</div>
+                        </td>
+                      </ng-container>
+                      <ng-container matColumnDef="retailPrice">
+                        <th mat-header-cell *matHeaderCellDef>
+                          <div style="width: 200px">Price</div>
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                          <div style="width: 200px">{{ element.retailPrice }}</div>
+                        </td>
+                      </ng-container>
+                      <ng-container matColumnDef="quantity">
+                          <th mat-header-cell *matHeaderCellDef>
+                            <div style="width: 200px">Quantity</div>
+                          </th>
+                          <td mat-cell *matCellDef="let element">
+                            <div style="width: 200px">{{ element.quantity }}</div>
+                          </td>
+                        </ng-container>
+                      <ng-container matColumnDef="discount">
+                        <th mat-header-cell *matHeaderCellDef>
+                          <div style="width: 200px">Disc%</div>
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                          <div style="width: 200px">{{ element.discount }}</div>
+                        </td>
+                      </ng-container>
+                      <ng-container matColumnDef="discAmount">
+                        <th mat-header-cell *matHeaderCellDef>
+                          <div style="width: 200px">Disc.Amount</div>
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                          <div style="width: 200px">{{ element.discAmount }}</div>
+                        </td>
+                      </ng-container>
+                      <ng-container matColumnDef="lineTotal">
+                        <th mat-header-cell *matHeaderCellDef>
+                          <div style="width: 200px">Line Total</div>
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                          <div style="width: 200px">{{ element.lineTotal }}</div>
+                        </td>
+                      </ng-container>
+                  <ng-container matColumnDef="actions" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef style="width: 100px; text-align: center">
+                      <div style="width: 100px; text-align: center">Actions</div>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                      <div style="width: 100px; text-align: center">
+                        <button mat-icon-button mat-sm-button style="color: #1e293b" (click)="edit(row)"
+                          cTooltip="Edit Settings ">
+                          <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button mat-sm-button color="warn" cTooltip="Delete Settings "
+                          (click)="delete(row)" [enabled]="row.isSystemDefined">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </div>
+                    </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                </table>
+              </section>
+            </div>
+          </c-card-body>
+          <div fxLayout="row" fxLayoutAlign="end center" class="form-group">
+            <div fxFlex="30%" class="form-group">
+              <h4>Total Amount: {{ totalAmount }}</h4>
+            </div>
+          </div>
+        </c-card>
+        <div fxLayoutAlign="end start">
+          <c-spinner *ngIf="proccessing" style="height: 50px; width: 50px; color: rgb(3, 71, 102)"></c-spinner>
+          <div style="margin-top: 10px" *ngIf="!proccessing">
+            <div fxLayout="row" fxLayoutAlign="end" fxFlex="100%">
+              <c-spinner *ngIf="proccessing" style="height: 50px; width: 50px; color: rgb(3, 71, 102)"></c-spinner>
+              <div style="margin-top: 10px" *ngIf="!proccessing">
+                
+                <!-- changing this to make primary save and print and primary update and print-->
+                  <!-- Add Mode: Primary Save & Print, Secondary Save -->
+        <ng-container *ngIf="Add">
+          <mat-button-toggle-group cButton class="me-1" style="background-color: #192151; width: 150px">
+            <!-- Primary Button: Save & Print -->
+            <mat-button-toggle (click)="onSaveAndPrint()">
+              🖨 Save & Print
+            </mat-button-toggle>
+            <!-- Dropdown trigger -->
+            <mat-button-toggle [matMenuTriggerFor]="dropdownMenuAdd">
+              <mat-icon style="margin-right: 8px">arrow_drop_down</mat-icon>
+            </mat-button-toggle>
+          </mat-button-toggle-group>
+
+          <!-- Dropdown Menu for Add Mode -->
+          <mat-menu #dropdownMenuAdd="matMenu" xPosition="before">
+            <button type="button" (click)="Submit()" class="btn btn-primary">
+              Save
+            </button>
+          </mat-menu>
+        </ng-container>
+
+        <!-- Edit Mode: Primary Update & Print, Secondary Update -->
+        <ng-container *ngIf="Edit">
+          <mat-button-toggle-group cButton class="me-1" style="background-color: #192151; width: 150px">
+            <!-- Primary Button: Update & Print -->
+            <mat-button-toggle (click)="onSaveAndPrint()">
+              🖨 Update & Print
+            </mat-button-toggle>
+            <!-- Dropdown trigger -->
+            <mat-button-toggle [matMenuTriggerFor]="dropdownMenuEdit">
+              <mat-icon style="margin-right: 8px">arrow_drop_down</mat-icon>
+            </mat-button-toggle>
+          </mat-button-toggle-group>
+
+          <!-- Dropdown Menu for Edit Mode -->
+          <mat-menu #dropdownMenuEdit="matMenu" xPosition="before">
+            <button type="button" (click)="Submit()" class="btn btn-primary">
+              Update
+            </button>
+          </mat-menu>
+        </ng-container>
+
+<!-- Hidden Print Receipt Component -->
+<!-- This component is always rendered but will only display when printing (via your CSS) -->
+<div class="print-only">
+  <app-sale-invoice-print *ngIf="selectedSaleInvoice" [saleInvoice]="selectedSaleInvoice"></app-sale-invoice-print>
+</div>
+
+              <!-- <mat-menu #dropdownMenuTwo="matMenu" xPosition="before" >
+                  <button type="submit" mat-menu-item class="menu-item" (click)="isPrint=true;Submit();">
+                      <mat-icon class="menu-item-icon">picture_as_pdf</mat-icon>
+                      <span class="menu-item-text">Update & Pdf</span>
+                  </button>
+
+              </mat-menu> -->
+                  <button cButton class="me-1" style="background-color: #192151; width: 100px" type="button"
+                  (click)="Refresh()" >
+                  Clear
+                </button>  
+                <button cButton class="me-1" style="background-color: #051e51; width: 100px" (click)="Back()">
+                  Go Back
+                </button>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Print Component: Always rendered (it can be hidden during normal view via CSS if needed) 
+<app-sale-invoice-print *ngIf="selectedSaleInvoice" [saleInvoice]="selectedSaleInvoice"></app-sale-invoice-print> -->
+<!-- 
+<div class="print-only">
+  <app-sale-invoice-print
+    *ngIf="selectedSaleInvoice"
+    [saleInvoice]="selectedSaleInvoice">
+  </app-sale-invoice-print>
+</div> -->

@@ -1,0 +1,129 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\CTL\**" />
+    <Compile Remove="Controllers\Inquiry\**" />
+    <Compile Remove="Controllers\Receivable\**" />
+    <Compile Remove="Controllers\TMS\**" />
+    <Content Remove="Controllers\CTL\**" />
+    <Content Remove="Controllers\Inquiry\**" />
+    <Content Remove="Controllers\Receivable\**" />
+    <Content Remove="Controllers\TMS\**" />
+    <EmbeddedResource Remove="Controllers\CTL\**" />
+    <EmbeddedResource Remove="Controllers\Inquiry\**" />
+    <EmbeddedResource Remove="Controllers\Receivable\**" />
+    <EmbeddedResource Remove="Controllers\TMS\**" />
+    <None Remove="Controllers\CTL\**" />
+    <None Remove="Controllers\Inquiry\**" />
+    <None Remove="Controllers\Receivable\**" />
+    <None Remove="Controllers\TMS\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\AccountController.cs" />
+    <Compile Remove="Controllers\AppointmentController.cs" />
+    <Compile Remove="Controllers\AssignClassController.cs" />
+    <Compile Remove="Controllers\AssignTaskController.cs" />
+    <Compile Remove="Controllers\AttendanceController.cs" />
+    <Compile Remove="Controllers\BranchschoolController.cs" />
+    <Compile Remove="Controllers\CityController.cs" />
+    <Compile Remove="Controllers\CityStudentController.cs" />
+    <Compile Remove="Controllers\ClientController.cs" />
+    <Compile Remove="Controllers\CourseController.cs" />
+    <Compile Remove="Controllers\CourseDetailController.cs" />
+    <Compile Remove="Controllers\CourseScheduleController.cs" />
+    <Compile Remove="Controllers\EnumValuesController.cs" />
+    <Compile Remove="Controllers\FeatureController.cs" />
+    <Compile Remove="Controllers\FeeController.cs" />
+    <Compile Remove="Controllers\FeeLineController.cs" />
+    <Compile Remove="Controllers\FeetypeschoolController.cs" />
+    <Compile Remove="Controllers\FiscalYearController.cs" />
+    <Compile Remove="Controllers\GuardianschoolController.cs" />
+    <Compile Remove="Controllers\lab_patientlabtestController.cs" />
+    <Compile Remove="Controllers\lab_sampletypeController.cs" />
+    <Compile Remove="Controllers\LAB_SpecimenController.cs" />
+    <Compile Remove="Controllers\LectureController.cs" />
+    <Compile Remove="Controllers\NotificationController.cs" />
+    <Compile Remove="Controllers\NotificationLogController.cs" />
+    <Compile Remove="Controllers\OpeningBalanceDetailController.cs" />
+    <Compile Remove="Controllers\PageController.cs" />
+    <Compile Remove="Controllers\PatientController.cs" />
+    <Compile Remove="Controllers\PatientLabTestController.cs" />
+    <Compile Remove="Controllers\PermissionsController.cs" />
+    <Compile Remove="Controllers\RoleController.cs" />
+    <Compile Remove="Controllers\SampleTypeController.cs" />
+    <Compile Remove="Controllers\SchController.cs" />
+    <Compile Remove="Controllers\ScheduleController.cs" />
+    <Compile Remove="Controllers\ScheduleDayEventController.cs" />
+    <Compile Remove="Controllers\SchoolController.cs" />
+    <Compile Remove="Controllers\SettingsController.cs" />
+    <Compile Remove="Controllers\SettingsTypeController.cs" />
+    <Compile Remove="Controllers\Student1Controller.cs" />
+    <Compile Remove="Controllers\StudentFormController.cs" />
+    <Compile Remove="Controllers\StudentschoolController.cs" />
+    <Compile Remove="Controllers\TaskCommentController.cs" />
+    <Compile Remove="Controllers\TaskController.cs" />
+    <Compile Remove="Controllers\TasksController.cs" />
+    <Compile Remove="Controllers\TopicController.cs" />
+    <Compile Remove="Controllers\useraccountController.cs" />
+    <Compile Remove="Controllers\UserattbydateController.cs" />
+    <Compile Remove="Controllers\UserController.cs" />
+    <Compile Remove="Controllers\UserreportController.cs" />
+    <Compile Remove="Controllers\UserRoleController.cs" />
+    <Compile Remove="Controllers\UsertaskbydateController.cs" />
+    <Compile Remove="Controllers\UserTaskController.cs" />
+    <Compile Remove="Controllers\VocabularyController.cs" />
+    <Compile Remove="Controllers\WeatherForecastController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="NLog.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="NLog.config" />
+  </ItemGroup> 
+	
+	
+	
+	
+	
+	
+	
+	
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.123" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="6.0.3" />
+    <PackageReference Include="MySql.Data" Version="8.0.28" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="5.2.1" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.1" />
+    <PackageReference Include="RestSharp" Version="108.0.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LMS.Core\LMS.Core.csproj" />
+    <ProjectReference Include="..\LMS.Service\LMS.Service.csproj" />
+  </ItemGroup>
+
+</Project>

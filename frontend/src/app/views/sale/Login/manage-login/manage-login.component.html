@@ -1,0 +1,50 @@
+<div style="background-color: rgb(4, 52, 70);text-align: center;
+justify-content: center;
+align-items: center;">
+  <div class="login-container">
+    <mat-card class="login-form">
+      <div class="text-center pt-8 pb-16" style="margin: 20px;margin-top: 30px;">
+        <mat-icon style="  transform: scale(4)">person_pin</mat-icon>
+      </div>
+      <form cForm #userForm="ngForm">
+        <mat-form-field class="form-group">
+          <mat-icon matPrefix>email</mat-icon>
+          <input matInput type="email" email [(ngModel)]="login.email" name="email" placeholder="Email" required>
+          <mat-error *ngIf="userForm.controls['email']?.errors?.['email']">
+            Email is not valid.
+          </mat-error>
+          <mat-error class="form-text text-danger"
+            *ngIf="userForm.controls['email']?.hasError || userForm.controls['email']?.errors?.['required']">
+            Its Required
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="form-group">
+          <mat-icon matPrefix>vpn_key</mat-icon>
+          <input password matInput [type]="hide ? 'password' : 'text'" [(ngModel)]="login.password" name="password"
+            placeholder="Password" required>
+          <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off'
+            :
+            'visibility'}}
+          </mat-icon>
+          <mat-error class="form-text text-danger"
+            *ngIf="userForm.controls['password']?.hasError || userForm.controls['password']?.errors?.['required']">
+            Its Required
+          </mat-error>
+        </mat-form-field>
+        <button mat-raised-button id="login-button" (click)="Login()" type="submit" [routerLink]="['/sale/ListSaleInvoice']">
+          <mat-icon style="color: white;">login</mat-icon> Login
+        </button>
+      </form>
+    
+      <div class="flex justify-between ">
+      <!--   <mat-icon>help</mat-icon> -->
+
+    <!-- <a class="forgot-password-link" routerLink="forgot-password">Forgot Password?</a>  -->
+      <a  class="forgot-password-link" [routerLink]="['/sign-up']">Sign Up</a> 
+    </div>
+    
+  
+     
+    </mat-card>
+  </div>
+</div>

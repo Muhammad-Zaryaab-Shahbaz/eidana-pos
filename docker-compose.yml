@@ -1,0 +1,47 @@
+services:
+  mysql:
+    image: mysql:8
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: lms
+      MYSQL_USER: lmsuser
+      MYSQL_PASSWORD: lmspassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql  # Persist database data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql  # Run initialization script
+    networks:
+      - lms-network
+
+  backend:
+    build: ./backend
+    container_name: dotnet-backend
+    depends_on:
+      - mysql
+    environment:
+      DB_CONNECTION_STRING: "Server=mysql;Database=lms;User=lmsuser;Password=lmspassword;"
+      BACKEND_URL: "http://0.0.0.0:6100"
+    ports:
+      - "6100:6100"
+    networks:
+      - lms-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: angular-frontend
+    depends_on:
+      - backend
+    ports:
+      - "4200:80"
+
+volumes:
+  mysql_data:
+
+networks:
+  lms-network:
+    driver: bridge

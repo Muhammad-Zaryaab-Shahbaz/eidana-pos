@@ -1,0 +1,170 @@
+/* 
+  .receipt-container: Overall receipt styling.
+  Sets a fixed width of 80mm and maximum height of 200mm.
+  Padding and border help create a neat print area.
+  The container itself is set to center text by default.
+*/
+.receipt-container {
+    width: 80mm;              /* Fixed width: 80mm */
+    max-width: 80mm;
+    max-height: 200mm;         /* Maximum height: 200mm */
+    margin: 0 auto;           /* Center container horizontally */
+    padding: 1mm;             /* Inner spacing */
+
+    font-family: Arial, sans-serif;
+    font-size: 10pt;
+    color: #000;
+    background: #fff;
+    border: 1px solid #ddd;
+    text-align: left;       /* Default center text for header/footer */
+  }
+  
+  /* 
+    .header: Contains the logo and store info.
+    Enforces center alignment.
+  */
+  .header {
+    text-align: center;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  }
+  
+  /* Logo Container */
+  .logo-container {
+    display: flex;
+    justify-content: center; /* Horizontal centering */
+    align-items: center;     /* Vertical centering (if needed) */
+    margin-bottom: 2mm;
+  }
+  
+  .logo {
+    max-width: 50mm;
+    height: auto;
+    /* Remove margin: 0 auto (Flexbox handles centering) */
+  }
+  
+  /* 
+    .store-info-container: Groups store name, address, and phone.
+    Uses center alignment.
+  */
+  .store-info-container {
+    text-align: center !important;
+  }
+  
+  /* 
+    .store-name: Store name appears as a block below the logo.
+  */
+  .store-name {
+    display: block;           /* Ensures it appears on a new line */
+    margin: 1mm 0 1mm 0;      /* Top and bottom margin */
+    font-size: 20pt;          /* Slightly larger for emphasis */
+    font-weight: bold;
+    text-align: center !important;
+  }
+  
+  /* 
+    .store-address and .store-phone: Each appears on its own line, centered.
+    Even if font size is reduced, the text remains centered.
+  */
+  .store-address,
+  .store-phone {
+    display: block;           /* Force new line */
+    margin: 1mm 0;            /* Vertical spacing */
+    font-size: 11pt;
+    text-align: center !important;  /* Force center alignment */
+  }
+  
+  /* 
+    .meta: Contains receipt metadata (date, invoice, customer).
+    Left aligned for a professional look.
+  */
+  .meta {
+    text-align: left;         /* Left align meta details */
+    margin: 3mm 0;
+  }
+  
+  .receipt-meta {
+    margin: 1mm 0;
+    font-size: 11pt;
+  }
+  
+  /* 
+    .divider: A dashed horizontal rule to separate sections.
+  */
+  .divider {
+    border: 0;
+    border-top: 1px dashed #000;
+    margin: 3mm 0;
+  }
+  
+  /* 
+    .receipt-table: Styles the table for the item list.
+    Uses full width and centered text in cells.
+  */
+  .receipt-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10pt;
+  }
+  
+  .receipt-table th,
+  .receipt-table td {
+    padding: 1mm 2mm;
+    border-bottom: 1px dashed #ccc;
+    text-align: center;
+  }
+  
+  /* 
+    .total-amount: Centers the total amount text.
+  */
+  .total-amount {
+    text-align: center;       /* Center total amount */
+    margin-top: 3mm;
+    font-size: 11pt;
+    font-weight: bold;
+  }
+  
+  /* 
+    .actions: Contains the print button, centered.
+  */
+  .actions {
+    text-align: center;
+    margin-top: 3mm;
+  }
+  
+  .print-btn {
+    padding: 3mm 6mm;
+    font-size: 10pt;
+    background-color: #940540;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* Footer */
+  .footer {
+    margin-top: 3mm;
+    border-top: 1px dashed #000;
+    padding-top: 2mm;
+    font-size: 12pt;
+    text-align: center !important; /* Force center alignment */
+  }
+  
+  /* Add this rule to target the website link directly */
+.website-link {
+    text-align: center !important;
+    margin: 0; /* Remove default paragraph margins */
+    padding: 0;
+    width: 100%;
+  }
+  /* 
+    .no-print: Used to hide elements (like the print button) during printing.
+  */
+  @media print {
+    .no-print {
+      display: none;
+    }
+  }
+  

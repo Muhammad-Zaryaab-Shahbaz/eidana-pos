@@ -1,0 +1,32 @@
+<div class="container">
+  <h1>Barcode Generator</h1>
+  <div class="input-section">
+    <label for="quantity">Number of Barcodes:</label>
+    <input type="number" id="quantity" [(ngModel)]="quantity" min="1" />
+
+    <label for="priceInput">Price (in PKR):</label>
+    <input type="number" id="priceInput" [(ngModel)]="price" min="0" />
+
+    <div class="button-group">
+      <button (click)="generateBarcodes()">Generate Barcodes</button>
+      <button (click)="printBarcodes()" [disabled]="barcodes.length === 0">Print Barcodes</button>
+      <!-- <div class="download-container">
+        <button 
+          (click)="downloadBarcodesAsPDF()"
+          [disabled]="isProcessing || barcodes.length === 0">
+          Download as PDF
+        </button>
+        <div *ngIf="isProcessing" class="spinner-inline"></div>
+      </div> -->
+    </div>
+  </div>
+
+  <!-- On-screen barcode preview -->
+  <div class="barcode-container" id="barcode-print">
+    <div *ngFor="let barcode of barcodes; let i = index" class="barcode-item">
+      <div class="company-name">Eidanas</div>
+      <svg [id]="'barcode-' + i" class="barcode"></svg>
+      <div class="barcode-price">Price: PKR {{ price }}</div>
+    </div>
+  </div>
+</div>

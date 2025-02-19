@@ -1,0 +1,37 @@
+<div style="background-color: rgb(4, 52, 70);text-align: center;
+justify-content: center;
+align-items: center;">
+
+  <div class="login-container">
+    <mat-card class="login-form">
+      <div class="text-center pt-8 pb-16" style="margin: 20px;margin-top: 30px;">
+        <mat-icon style="  transform: scale(4)">person_pin</mat-icon>
+        <br><br>
+        <h3 >Verification Required</h3>
+        <h6 class="forgot-password-link">To continue, complete this Verification step.We have set one time passwrod(OTP) to your Email.Please enter it below.</h6>
+      </div>
+      <form cForm #OtpForm="ngForm">
+        <mat-form-field class="form-group">
+            
+          <mat-icon matPrefix>OTP</mat-icon>
+          <input matInput type="number" [(ngModel)]="OtpForm.value.otp" name="otp" placeholder="otp" required>
+          <mat-error *ngIf="OtpForm.controls['otp']?.errors?.['otp']">
+            OTP is not valid.
+          </mat-error>
+          <mat-error class="form-text text-danger"
+            *ngIf="OtpForm.controls['otp']?.hasError || OtpForm.controls['otp']?.errors?.['required']">
+            Its Required
+          </mat-error>
+        </mat-form-field>
+       
+        <button mat-raised-button id="login-button"  type="submit">
+          <mat-icon style="color: white;"></mat-icon> Continue
+        </button>
+
+
+      </form>
+    
+     
+    </mat-card>
+  </div>
+</div>

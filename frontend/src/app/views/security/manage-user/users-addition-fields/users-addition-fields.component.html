@@ -1,0 +1,79 @@
+<div class="container-fluid page">
+    <div class="d-flex page_box p-3 mt-2  header-sticky" position="sticky">
+        <div *ngIf="Add">Manage UserAdditionalFieldsVM
+        </div>
+        <div *ngIf="Edit">Edit UserAdditionalFieldsVM
+        </div>
+        <div fxFlex fxLayout="row" fxLayoutAlign="end center" style="margin-top: 0; padding-top: 0;" *ngIf="isDialog">
+            <button mat-icon-button style="color: white; margin-top: 0; padding-top: 0;" 
+            (click)="dialogRefe.close()"
+            aria-label="Close dialog">
+            <mat-icon>close</mat-icon>
+        </button>
+          </div>
+    </div>
+    <div class="page_content shadow p-3 position-relative">
+        <form #userForm="ngForm">
+            <div fxLayout="row" fxLayoutAlign="space-between">
+                <mat-form-field fxFlex="100%" appearance="outline" class="form-group">
+                    <mat-label>StudentName</mat-label>
+                    <input matInput required #studentName="ngModel" name="studentName" [(ngModel)]="selectedUser.studentName" />
+                </mat-form-field>
+                <mat-form-field fxFlex="49%" appearance="outline" class="form-group">
+                    <mat-label>GuardianName</mat-label>
+                    <input matInput required #guardianName="ngModel" name="guardianName" [(ngModel)]="selectedUser.guardianName" />
+                </mat-form-field>
+                <mat-form-field fxFlex="49%" appearance="outline" class="form-group">
+                    <mat-label>GuardianRelationship</mat-label>
+                    <input matInput required #guardianRelationship="ngModel" name="guardianRelationship" [(ngModel)]="selectedUser.guardianRelationship" />
+                </mat-form-field>
+                <mat-form-field fxFlex="49%" appearance="outline" class="form-group">
+                    <mat-label>GuardianProfession</mat-label>
+                    <input matInput required #guardianProfession="ngModel" name="guardianProfession" [(ngModel)]="selectedUser.guardianProfession" />
+                </mat-form-field>
+                <mat-form-field fxFlex="49%" appearance="outline" class="form-group">
+                    <mat-label>degree</mat-label>
+                    <input matInput required #degree="ngModel" name="degree" [(ngModel)]="selectedUser.degree" />
+                </mat-form-field>
+              
+                <mat-form-field fxFlex="49%" appearance="outline" class="form-group">
+                    <mat-label>university</mat-label>
+                    <input matInput required #university="ngModel" name="university" [(ngModel)]="selectedUser.university" />
+                </mat-form-field>
+                <mat-form-field fxFlex="49%" appearance="outline" class="form-group">
+                    <mat-label>cNIC</mat-label>
+                    <input matInput required #cNIC="ngModel" name="cNIC" [(ngModel)]="selectedUser.cNIC" />
+                </mat-form-field>
+                <mat-form-field fxFlex="49%" appearance="outline" class="form-group">
+                    <mat-label>joiningDate</mat-label>
+                    <input matInput required #joiningDate="ngModel" name="joiningDate" [(ngModel)]="selectedUser.joiningDate" />
+                </mat-form-field>
+                <mat-form-field fxFlex="49%" appearance="outline" class="form-group">
+                    <mat-label>address</mat-label>
+                    <input matInput required #address="ngModel" name="address" [(ngModel)]="selectedUser.address" />
+                </mat-form-field>
+               
+            </div>
+            <mat-checkbox name="isActive" [(ngModel)]="selectedUser.isActive">Is Active</mat-checkbox>
+            <div fxLayoutAlign="end end">
+                <c-spinner *ngIf="proccessing" style="height: 50px;width: 50px;color: rgb(3, 71, 102);"></c-spinner>
+                <div style="margin-top: 10px;" *ngIf="!proccessing">
+                    <button *ngIf="Add" cButton class="me-1" style="background-color:#1e293b ;" type="submit"
+                        (click)="SaveUser();">
+                        Save
+                    </button>
+                    <button *ngIf="Edit" cButton class="me-1" style="background-color:#1e293b ;" type="submit"
+                        (click)="SaveUser()">
+                        Update
+                    </button>
+                </div>
+                <div>
+                    <button mat-icon-button mat-sm-button color="primary" cTooltip="Refresh" cTooltipPlacement="top"
+                        (click)="ngOnInit()">
+                        <mat-icon>autorenew</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

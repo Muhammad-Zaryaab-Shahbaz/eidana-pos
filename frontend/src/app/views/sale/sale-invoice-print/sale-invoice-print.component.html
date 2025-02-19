@@ -1,0 +1,65 @@
+<div id="receipt-content" class="receipt-container">
+    <!-- Header Section: Logo and Store Info -->
+    <div class="header">
+      <!-- Logo Container -->
+      <div class="logo-container">
+        <img src="assets/images/Eidianas.logo.png" alt="Eidanas Logo" class="logo" />
+      </div>
+      <!-- Store Info Container: Store Name, Address, Phone (each on its own line) -->
+      <div class="store-info-container">
+        <h2 class="store-name">Eidanas</h2>
+        <p class="store-address">📍 Shop 369 St 17, D Sector D PWD, Islamabad</p>
+        <p class="store-phone">📞 0317-4490994, 0320-5003468</p>
+      </div>
+    </div>
+  
+    <!-- Meta Section: Receipt Details (left aligned) -->
+    <div class="meta">
+      <p class="receipt-meta">📅 Date: {{ saleInvoice?.date | date: 'shortDate' }}</p>
+      <p class="receipt-meta">📜 Invoice#: {{ saleInvoice?.invoiceNo }}</p>
+      <p class="receipt-meta">👤 Customer: {{ saleInvoice?.customerName }}</p>
+    </div>
+  
+    <hr class="divider" />
+  
+    <!-- Items Table -->
+    <table class="receipt-table">
+      <thead>
+        <tr>
+          <th>Barcode</th>
+          <th>Item</th>
+          <th>Qty</th>
+          <th>Price</th>
+          <th>Disc.</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of saleInvoice?.siLines">
+          <td>{{ item.barcode }}</td>
+          <td>{{ item.itemCode }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.retailPrice }}</td>
+          <td> {{item.discAmount}}</td>
+          <td>{{ item.lineTotal }}</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <hr class="divider" />
+  
+    <!-- Total Amount (centered) -->
+    <p class="total-amount"><strong> Grand Total: {{ saleInvoice?.totalAmount }}</strong></p>
+  
+    <!-- Print Button (hidden when printing) -->
+    <div class="actions no-print">
+      <button class="print-btn" (click)="printReceipt()">🖨 Print</button>
+    </div>
+  
+    <!-- Footer: Website centered at the very bottom -->
+    <footer class="footer">
+        <p class="website-link">www.eidanas.com</p>
+      </footer>
+  </div>
+  
+  
