@@ -94,6 +94,7 @@ const routes: Routes = [
       scrollPositionRestoration: 'top',
       anchorScrolling: 'enabled',
       initialNavigation: 'enabledBlocking',
+      useHash: false,
       // relativeLinkResolution: 'legacy'
     }),
   ],

@@ -8,6 +8,7 @@ services:
       MYSQL_DATABASE: lms
       MYSQL_USER: lmsuser
       MYSQL_PASSWORD: lmspassword
+    command: --lower_case_table_names=1
     ports:
       - "3306:3306"
     volumes:
@@ -37,7 +38,9 @@ services:
     depends_on:
       - backend
     ports:
-      - "4200:80"
+      - "80:80"
+    networks:
+      - lms-network
 
 volumes:
   mysql_data:
