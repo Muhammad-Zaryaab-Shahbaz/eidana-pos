@@ -23,7 +23,7 @@ namespace LMS.Service.POS
             bool closeConnectionFlag = false;
             try
             {
-                _entity = TableNames.POS_Items.ToString();
+                _entity = LMS.Core.Enums.TableNames.POS_Items.ToString();
                 if (cmd == null || cmd.Connection.State != ConnectionState.Open)
                 {
                     cmd = LMSDataContext.OpenMySqlConnection();
@@ -92,7 +92,7 @@ namespace LMS.Service.POS
                     WhereClause += $" AND wholeSalePrice={mod.WholeSalePrice}";
                 if (mod.RetailPrice != default && mod.RetailPrice != 0)
                     WhereClause += $" AND RetailPrice={mod.RetailPrice}";
-                if (mod.IsActive != default && mod.IsActive)
+                if (mod.IsActive == true)
                     WhereClause += $" AND ctl.IsActive=1";
 
 

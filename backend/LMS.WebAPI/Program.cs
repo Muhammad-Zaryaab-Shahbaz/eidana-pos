@@ -8,7 +8,7 @@ using System.Text;
 using LMS.DAL.POS;
 using LMS.Service.POS;
 using LMS.DAL;
-using LMS.Services;
+using LMS.Service;
 using LMS.WebAPI.Data;
 
 var builder = WebApplication.CreateBuilder(args);
