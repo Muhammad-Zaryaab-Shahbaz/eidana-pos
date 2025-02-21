@@ -10,7 +10,7 @@ import { SaleInvoicePrintComponent } from './sale-invoice-print/sale-invoice-pri
 
 const routes: Routes = [
   {
-    path: "",
+    path: "SaleInvoice",
     component: ManageSaleInvoiceComponent,
     pathMatch: "full"
   },
