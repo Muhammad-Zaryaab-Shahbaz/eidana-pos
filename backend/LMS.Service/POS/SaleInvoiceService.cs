@@ -26,7 +26,7 @@ namespace LMS.Service.POS
                     LMSDataContext.StartTransaction(cmd);
 
                     if (mod.DBoperation == DBoperations.Insert)
-                        mod.Id = _coreDAL.GetNextIdByClient(_entity, mod.ClientId, "ClientId");
+                        mod.Id = _coreDAL.GetNextIdByClient(_entity, mod.ClientId ?? 0 , "ClientId");
                     if (_soDAL.POS_Manage_SaleInvoice(mod, cmd))
                     {
                         mod.AddSuccessMessage(string.Format(AppConstants.CRUD_DB_OPERATION, _entity, mod.DBoperation.ToString()));
@@ -38,10 +38,10 @@ namespace LMS.Service.POS
                         _logger.Info($"Error: " + string.Format(AppConstants.CRUD_ERROR, _entity));
                     }
                     if (mod.DBoperation == DBoperations.Insert || mod.DBoperation == DBoperations.Update)
-                        lineId = _coreDAL.GetNextLineIdByClt(TableNames.POS_SaleInvoiceDetail.ToString(), "SaleInvoiceId", mod.Id, mod.ClientId);
+                        lineId = _coreDAL.GetNextLineIdByClt(TableNames.POS_SaleInvoiceDetail.ToString(), "SaleInvoiceId", mod.Id.Value, mod.ClientId ?? 0);
                     foreach (var line in mod.SILines)
                     {
-                        line.SaleInvoiceId = mod.Id;
+                        line.SaleInvoiceId = mod.Id. Value ;
                         line.ClientId = mod.ClientId;
                         if (line.DBoperation == DBoperations.Insert)
                         {
@@ -128,7 +128,7 @@ namespace LMS.Service.POS
             }
             public string GetNextInvoNo(SaleInvoiceDE SI)
             {
-                return _coreDAL.GetNextPageNo(SI.ClientId, TableNames.POS_SaleInvoice.ToString(), "InvoiceNo", "INV-");
+                return _coreDAL.GetNextPageNo(SI.ClientId?? 0, TableNames.POS_SaleInvoice.ToString(), "InvoiceNo", "INV-");
             }
         }
     }

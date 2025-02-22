@@ -415,3 +415,40 @@ BEGIN
 END $$
 
 DELIMITER ;
+
+DELIMITER ;;
+CREATE PROCEDURE `GetNextPageNumber`(IN clientId INT, 
+    IN tableName VARCHAR(50), 
+    IN columnName VARCHAR(50), 
+    IN prefix VARCHAR(10), 
+    OUT nextNo VARCHAR(25))
+BEGIN
+    DECLARE latestNo VARCHAR(25);
+    DECLARE numberPart INT;
+    DECLARE newNumberPart INT;
+    DECLARE dynamicQuery VARCHAR(255);
+
+    SET @dynamicQuery = CONCAT(
+        'SELECT ', columnName, ' INTO @latestNo FROM ', tableName,
+        ' WHERE ClientId = ', clientId, 
+        ' ORDER BY Id DESC LIMIT 1'
+    );
+
+
+    PREPARE stmt FROM @dynamicQuery;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
+
+    SET latestNo = @latestNo;
+
+    IF latestNo IS NULL THEN
+        SET numberPart = 0;
+    ELSE
+        SET numberPart = CAST(REPLACE(SUBSTRING(latestNo, LENGTH(prefix) + 1), '-', '') AS UNSIGNED);
+    END IF;
+
+    SET newNumberPart = numberPart + 1;
+    SET nextNo = CONCAT(prefix, LPAD(newNumberPart, 6, '0'));
+
+END ;;
+DELIMITER ;

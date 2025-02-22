@@ -24,17 +24,17 @@ namespace LMS.Core.Entities
         }
         #endregion
         #region Class Properties
-        public int Id { get; set; }
-        public bool IsActive { get; set; }
-        public DBoperations DBoperation { get; set; }
-        public int CreatedById { get; set; }
+        public int? Id { get; set; }
+        public bool? IsActive { get; set; }
+        public DBoperations? DBoperation { get; set; }
+        public int? CreatedById { get; set; }
         public DateTime? CreatedOn { get; set; }
-        public int ModifiedById { get; set; }
-        public DateTime ModifiedOn { get; set; }
+        public int? ModifiedById { get; set; }
+        public DateTime? ModifiedOn { get; set; }
 
         public DateTime? FromDate { get; set; }
         public DateTime? ToDate  { get; set; }
-        public int ClientId { get; set; }
+        public int? ClientId { get; set; }
         public string? ResponseMessage { get; set; }
         public bool? IsSent { get; set; }
         public string? UserFriendlyMessage { get; set; }

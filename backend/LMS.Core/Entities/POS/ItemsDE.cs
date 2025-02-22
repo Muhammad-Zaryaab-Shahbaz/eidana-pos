@@ -10,13 +10,13 @@ namespace LMS.Core.Entities.POS
         #region Properties
         public string? ItemCode { get; set; }
         public string? Description { get; set; }
-        public int? Barcode { get; set; }
+        public int Barcode { get; set; }
         public string? BrandName { get; set; }
         public string? Size { get; set; }
-        public int? Quantity { get; set; }
-        public int? CostPrice { get; set; }
-        public int? WholeSalePrice { get; set; }
-        public int? RetailPrice { get; set; }
+        public int Quantity { get; set; }
+        public int CostPrice { get; set; }
+        public int WholeSalePrice { get; set; }
+        public int RetailPrice { get; set; }
       
         #endregion
 

@@ -3,7 +3,7 @@ using LMS.Core.Enums;
 using LMS.DAL;
 using MySql.Data.MySqlClient;
 
-namespace LMS.Services
+namespace LMS.Service
 {
     public class CoreService
     {

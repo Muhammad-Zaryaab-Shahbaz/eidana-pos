@@ -2,7 +2,7 @@
 using MySql.Data.MySqlClient;
 using System.Data;
 
-namespace LMS.DAL
+namespace LMS.Service
 {
     public class LMSDataContext
     {
